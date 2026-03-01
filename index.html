@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>রিনি আপুর জন্য 💙</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    font-family:'Hind Siliguri', sans-serif;
+    overflow-x:hidden;
+    background: linear-gradient(-45deg,#ffd6ec,#d6f3ff,#ffe6fa,#e6f7ff);
+    background-size:400% 400%;
+    animation:gradientBG 12s ease infinite;
+}
+@keyframes gradientBG{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+section{
+    min-height:60vh; 
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+    opacity:0;
+    transition:opacity 0.8s ease;
+}
+section.active{opacity:1;}
+img.page-img{
+    width:250px;
+    height:300px;
+    object-fit:cover;
+    border-radius:15px;
+    margin-bottom:15px;
+}
+p{
+    font-size:18px;
+    line-height:1.7;
+    color:#333;
+}
+button{
+    padding:10px 20px;
+    background:#ff4d94;
+    color:white;
+    border:none;
+    border-radius:25px;
+    cursor:pointer;
+    font-size:16px;
+    margin-top:15px;
+    transition:0.3s;
+}
+button:hover{background:#ff1a75;transform:scale(1.05);}
+.card{
+    background:rgba(255,255,255,0.25);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    max-width:650px;
+    transition:0.3s;
+}
+.card.shake{
+    animation:shake 0.5s;
+}
+@keyframes shake{
+    0%{transform:translateX(0);}
+    20%{transform:translateX(-8px);}
+    40%{transform:translateX(8px);}
+    60%{transform:translateX(-8px);}
+    80%{transform:translateX(8px);}
+    100%{transform:translateX(0);}
+}
+.heart{
+    position:fixed;
+    bottom:-20px;
+    font-size:18px;
+    animation:float 8s linear infinite;
+    opacity:0.6;
+}
+@keyframes float{
+    0%{transform:translateY(0) rotate(0deg);}
+    100%{transform:translateY(-100vh) rotate(360deg);}
+}
+footer{margin:20px 0 15px;font-size:14px;color:#555;}
+input[type=password]{padding:8px 12px;border-radius:15px;border:1px solid #ccc;font-size:16px;}
+</style>
+</head>
+<body>
+
+<!-- Background music -->
+<audio id="bgMusic" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Wrong password sound -->
+<audio id="wrong">
+    <source src="wrong.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Page 1: Lock -->
+<section class="active" id="page1">
+    <div class="card" id="lockCard">
+        <h1>Enter Password 🤍</h1>
+        <input type="password" id="pass" placeholder="amirini">
+        <button onclick="checkPassword()">Unlock</button>
+    </div>
+</section>
+
+<!-- Page 2 -->
+<section id="page2">
+    <div class="card">
+        <img src="img1.jpg" class="page-img">
+        <p>
+        জীবনে পথচলার জন্য কিছু মানুষের দরকার হয়,<br>
+        যারা ভালো সময়ে আনন্দ ভাগ করে নেয়<br>
+        আর খারাপ সময়ে হাতটা শক্ত করে ধরে রাখে।
+        </p>
+        <button onclick="nextPage(3,true)">Next ➜</button>
+    </div>
+</section>
+
+<!-- Page 3 -->
+<section id="page3">
+    <div class="card">
+        <img src="img2.jpg" class="page-img">
+        <p>আপনি আমার জীবনে ঠিক তেমনই একজন মানুষ।<br>
+        আপনি পাশে থাকলে পথ কঠিন হলেও ভয় লাগে না।
+        </p>
+        <button onclick="nextPage(4,true)">Next ➜</button>
+    </div>
+</section>
+
+<!-- Page 4 -->
+<section id="page4">
+    <div class="card">
+        <img src="img3.jpg" class="page-img">
+        <p>আল্লাহ আপনাকে সুস্থ, সুখী ও সম্মানিত রাখুন সবসময়। 💙</p>
+        <button onclick="nextPage(5,true)">Next ➜</button>
+    </div>
+</section>
+
+<!-- Page 5 -->
+<section id="page5">
+    <div class="card">
+        <img src="img4.jpg" class="page-img">
+        <p>আপনি আমার জীবনের আসলেই অনেক বড় পাওয়া ❤️</p>
+    </div>
+</section>
+
+<footer>Made with ❤️ by Fahim</footer>
+
+<script>
+// Floating hearts
+setInterval(()=>{
+    const h=document.createElement('div');
+    h.className='heart';
+    h.textContent='💖';
+    h.style.left=Math.random()*100+'vw';
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),8000);
+},500);
+
+// Page navigation
+function showPage(id){
+    document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+// Next page with optional music start
+function nextPage(num,startMusic=false){
+    showPage('page'+num);
+    if(startMusic){document.getElementById('bgMusic').play();}
+}
+
+// Password check with shake + wrong sound
+const correctPassword='amirini';
+function checkPassword(){
+    let val=document.getElementById('pass').value;
+    const card=document.getElementById('lockCard');
+    if(val===correctPassword){
+        nextPage(2,true);
+    }else{
+        document.getElementById('wrong').play();
+        card.classList.add('shake');
+        setTimeout(()=>card.classList.remove('shake'),500);
+        document.getElementById('pass').value='';
+    }
+}
+
+// Enter key for password
+document.getElementById('pass').addEventListener('keypress',function(e){
+    if(e.key==='Enter'){checkPassword();}
+});
+</script>
+
+</body>
+          </html>
